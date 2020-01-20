@@ -57,7 +57,7 @@ Please read [CONTRIBUTING.md](https://github.com/Imisi3D/leVRnAlgebra/blob/maste
 - **Isiaq Gbadamosi** - [Github](https://github.com/badmusishaq)
 
 ## Code of Conduct
-- Please read [Code-Of-Conduct.md](https://github.com/Imisi3D/leVRnAlgebra/blob/master/Code-Of-Conduct.md) for our list of acceptable and unacceptable behaviours.
+- Please read [Code-Of-Conduct.md](https://github.com/Imisi3D/leVRnAlgebra/blob/master/Code%20of%20Conduct.md) for our list of acceptable and unacceptable behaviours.
 
 ## License
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE.md](https://github.com/Imisi3D/leVRnAlgebra/blob/master/LICENSE) file for details.
