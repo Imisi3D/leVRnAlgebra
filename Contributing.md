@@ -9,4 +9,4 @@ LeVRnAlgebra is an open-source project, and we love to receive contributions fro
 - Reporting or fixing bugs
 
 ## Code of Conduct
-- Please read [Code-Of-Conduct.md](https://github.com/Imisi3D/leVRnAlgebra/blob/master/Code-Of-Conduct.md) for our list of acceptable and unacceptable behaviours.
+- Please read [Code-Of-Conduct.md](https://github.com/Imisi3D/leVRnAlgebra/blob/master/Code%20of%20Conduct.md) for our list of acceptable and unacceptable behaviours.
