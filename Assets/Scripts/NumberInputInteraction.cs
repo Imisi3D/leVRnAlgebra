@@ -47,7 +47,7 @@ public class NumberInputInteraction : MonoBehaviour
     // part2 object which when is activated Script 2 will start.
     public GameObject part2;
 
-    // used only for debuging in editor.
+    // used only for debugging in editor.
     private float lastFrameClick = 0f;
     private void Update()
     {
@@ -166,7 +166,6 @@ public class NumberInputInteraction : MonoBehaviour
             case 5:
                 {
                     playSound(explination_finalAnswer);
-                    explain();
                     StartCoroutine(SetActiveForInputCanvasAfterDelay(true, explination_finalAnswer.length));
                     InteractionText.text = "What is your final answer?";
                     btn_done.SetActive(false);
@@ -224,6 +223,7 @@ public class NumberInputInteraction : MonoBehaviour
         playSound(doYouKnowHowIDidIt);
         ask();
         yield return new UnityEngine.WaitForSeconds(doYouKnowHowIDidIt.length + 0.3f);
+        idle();
         inputCanvas.GetComponent<Canvas>().enabled = false;
         inputCanvas_collider.SetActive(false);
         YesNoCanvas.SetActive(true);
@@ -238,16 +238,14 @@ public class NumberInputInteraction : MonoBehaviour
         print("explain");
         //if (audioSource.isPlaying) return;
         print("explaining");
-
-        explain();
-        StartCoroutine(ShowExplination());
+        if (!audioSource.isPlaying)
+            StartCoroutine(ShowExplination());
     }
 
     public GameObject YesNoCanvas_collider;
     IEnumerator ShowExplination()
     {
         playSound(AnswerForYes);
-        explain();
         inputCanvas.GetComponent<Canvas>().enabled = false;
         inputCanvas_collider.SetActive(false);
         yield return new UnityEngine.WaitForSeconds(0.5f);
@@ -505,7 +503,6 @@ public class NumberInputInteraction : MonoBehaviour
             FruitGameStepData nextStepData = FruitGameSteps[FruitGame_CurrentStep++];
             yield return new UnityEngine.WaitForSeconds(1.0f);
             playSound(nextStepData.starter);
-            explain();
             yield return new UnityEngine.WaitForSeconds(0.5f);
             fruitMover.enabled = true;
 
@@ -576,6 +573,7 @@ public class NumberInputInteraction : MonoBehaviour
 
     public void ReceiveFeedback(string feedback)
     {
+        if (audioSource.isPlaying) return;
         StartCoroutine(ReactToFeedback(feedback));
     }
 
@@ -583,7 +581,6 @@ public class NumberInputInteraction : MonoBehaviour
     {
         FruitGame_feedbackCanvas.GetComponent<Canvas>().enabled = false;
         FruitGame_OptionsCanvas.SetActive(false);
-        explain();
         if (feedback.Equals("fun"))
         {
             playSound(FruitGame_greatToHear);
@@ -605,6 +602,7 @@ public class NumberInputInteraction : MonoBehaviour
         yield return new UnityEngine.WaitForSeconds(6f);
         ask();
         yield return new UnityEngine.WaitForSeconds(FruitGame_algebraIsNotHard.length - 6f);
+        idle();
         DoYouAgree_Canvas.GetComponent<Canvas>().enabled = true;
         FruitGame_feedbackCanvas.GetComponent<Canvas>().enabled = true;
         BoxCollider box = DoYouAgree_Canvas.GetComponent<BoxCollider>();
@@ -615,6 +613,7 @@ public class NumberInputInteraction : MonoBehaviour
 
     public void DoYouAgreeFeedbackReaction(string answer)
     {
+        if (audioSource.isPlaying) return;
         if (answer.Equals("yes"))
         {
             playSound(FruitGame_thatsGreat);
@@ -734,9 +733,16 @@ public class NumberInputInteraction : MonoBehaviour
     public void playSound(AudioClip clip)
     {
         explain();
-
         audioSource.PlayOneShot(clip);
+        StartCoroutine(toIdle(clip.length - 0.2f));
     }
+
+    IEnumerator toIdle(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        idle();
+    }
+
 
     public void Restart()
     {

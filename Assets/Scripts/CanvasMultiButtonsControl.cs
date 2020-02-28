@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using System.Collections;
 
 public class CanvasMultiButtonsControl : MonoBehaviour
 {
@@ -59,6 +60,7 @@ public class CanvasMultiButtonsControl : MonoBehaviour
 
     public void reactionFromButtons()
     {
+        if (audioSource.isPlaying) return;
         GameObject currentSelectedGameObject = EventSystem.current.currentSelectedGameObject;
         if (currentSelectedGameObject.name == currentCorrect)
         {
@@ -69,7 +71,7 @@ public class CanvasMultiButtonsControl : MonoBehaviour
             BoxCollider col = gameObject.GetComponent<BoxCollider>();
             if (col != null) col.enabled = false;
             currentCorrect = "btn_14";
-            synchronizer.NextSync();
+            StartCoroutine(nextSyncAfterDelay(correct.length + 0.2f));
             foreach (Step_Action step in actions)
             {
                 if (step.step == currentStep)
@@ -88,7 +90,7 @@ public class CanvasMultiButtonsControl : MonoBehaviour
             {
                 availableTries = 2;
                 audioSource.PlayOneShot(wrong);
-                synchronizer.NextSync();
+                StartCoroutine(nextSyncAfterDelay(wrong.length + 0.2f));
                 currentStep++;
                 currentCorrect = "btn_14";
                 gameObject.GetComponent<Canvas>().enabled = false;
@@ -109,6 +111,13 @@ public class CanvasMultiButtonsControl : MonoBehaviour
     public void setNextCorrect(string name)
     {
         currentCorrect = name;
+    }
+
+
+    private IEnumerator nextSyncAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(1f);
+        synchronizer.NextSync();
     }
 
 }
