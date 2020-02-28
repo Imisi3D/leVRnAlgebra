@@ -7,33 +7,49 @@ public enum HighlightOptions
 {
     none = 0,
     correct = 1,
-    wrong = 2
+    wrong = 2,
+    hover = 3
 }
 
 public enum HighlightType
 {
     material,
-    sprite
+    sprite,
+    color
 }
 
 public class VRObject : MonoBehaviour
 {
     public Pointer VRPointer;
     public bool bShouldHighlight = false;
-
+    public Rigidbody rigidbody;
+    public VoiceImageCanvasSync synchronizer;
     #region Highlight
     public HighlightType highlightType = HighlightType.material;
     public Material default_Material;
     public Material Correct_Material;
     public Material wrong_Material;
+    public Material hover_Material;
+    public Image image;
     public Sprite default_Sprite;
     public Sprite Correct_Sprite;
     public Sprite wrong_Sprite;
+    public Sprite hover_Sprite;
+    public Color default_Color;
+    public Color Correct_Color;
+    public Color wrong_Color;
+    public Color hover_Color;
     #endregion
 
     // called when parent of this component is clicked on with pointer (either using touch pad or trigger).
     public virtual void interact()
     {
+        rigidbody.useGravity = true;
+        if(synchronizer!=null)
+        {
+            synchronizer.NextSync();
+        }
+        
 
     }
 
@@ -43,27 +59,59 @@ public class VRObject : MonoBehaviour
      */
     public virtual void interact(Pointer pointer)
     {
-
     }
 
 
-    public void applyHighlight(HighlightOptions highlight)
+    public void applyHighlight(HighlightOptions highlight, bool force = false)
     {
+        if ((currentHighlightOption == HighlightOptions.correct || currentHighlightOption == HighlightOptions.wrong) && !force) return;
         currentHighlightOption = highlight;
         switch (highlight)
         {
             case HighlightOptions.none:
                 {
+
                     if (highlightType == HighlightType.material)
                     {
                         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
-                        meshRenderer.material = default_Material;
+                        if (default_Material != null)
+                            meshRenderer.material = default_Material;
                     }
                     else if (highlightType == HighlightType.sprite)
                     {
-                        Image img = gameObject.GetComponent<Image>();
-                        img.sprite = default_Sprite;
+                        //Image img = gameObject.GetComponent<Image>();
+                        if (default_Sprite != null)
+                            image.sprite = default_Sprite;
 
+                    }
+                    else if (highlightType == HighlightType.color)
+                    {
+                        //Image img = gameObject.GetComponent<Image>();
+                        if (default_Color != null)
+                            image.color = default_Color;
+                    }
+                    break;
+                }
+            case HighlightOptions.hover:
+                {
+                    if (highlightType == HighlightType.material)
+                    {
+                        MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
+                        if (hover_Material != null)
+                            meshRenderer.material = hover_Material;
+                    }
+                    else if (highlightType == HighlightType.sprite)
+                    {
+                        //Image img = gameObject.GetComponent<Image>();
+                        if (hover_Sprite != null)
+                            image.sprite = hover_Sprite;
+
+                    }
+                    else if (highlightType == HighlightType.color)
+                    {
+                        //Image img = gameObject.GetComponent<Image>();
+                        if (hover_Color != null)
+                            image.color = hover_Color;
                     }
                     break;
                 }
@@ -72,13 +120,20 @@ public class VRObject : MonoBehaviour
                     if (highlightType == HighlightType.material)
                     {
                         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
-                        meshRenderer.material = Correct_Material;
+                        if (Correct_Material != null)
+                            meshRenderer.material = Correct_Material;
                     }
                     else if (highlightType == HighlightType.sprite)
                     {
-                        Image img = gameObject.GetComponent<Image>();
-                        img.sprite = Correct_Sprite;
-
+                        //Image img = gameObject.GetComponent<Image>();
+                        if (Correct_Sprite != null)
+                            image.sprite = Correct_Sprite;
+                    }
+                    else if (highlightType == HighlightType.color)
+                    {
+                        //Image img = gameObject.GetComponent<Image>();
+                        if (Correct_Color != null)
+                            image.color = Correct_Color;
                     }
                     break;
                 }
@@ -87,12 +142,20 @@ public class VRObject : MonoBehaviour
                     if (highlightType == HighlightType.material)
                     {
                         MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
-                        meshRenderer.material = wrong_Material;
+                        if (wrong_Material != null)
+                            meshRenderer.material = wrong_Material;
                     }
                     else if (highlightType == HighlightType.sprite)
                     {
-                        Image img = gameObject.GetComponent<Image>();
-                        img.sprite = wrong_Sprite;
+                        //Image img = gameObject.GetComponent<Image>();
+                        if (wrong_Sprite != null)
+                            image.sprite = wrong_Sprite;
+                    }
+                    else if (highlightType == HighlightType.color)
+                    {
+                        //Image img = gameObject.GetComponent<Image>();
+                        if (wrong_Color != null)
+                            image.color = wrong_Color;
                     }
                     break;
                 }
@@ -107,12 +170,12 @@ public class VRObject : MonoBehaviour
      * if blink is true then this object will toggle between none and given option, else it will behave as the basic applyHighlight
      * 
      */
-    public void applyHighlight(HighlightOptions option, bool blink)
+    public void applyHighlight(HighlightOptions option, bool blink, bool force)
     {
         currentHighlightOption = option;
         if (option != HighlightOptions.none)
             currentHighlightOptionB = option;
-        applyHighlight(option);
+        applyHighlight(option, force);
         if (blink)
         {
             StartCoroutine(HighlightAfterDelay(0.5f, option));

@@ -17,7 +17,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Market.unity
     guid: 37c56754e1bb7d74fa58b1dceb0fc3d6
-  - enabled: 0
-    path: Assets/Scenes/Voxlart_Scene.unity
-    guid: 00d1379aa0126e440b61bb6437d57bb2
   m_configObjects: {}

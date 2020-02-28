@@ -32,8 +32,7 @@ public class Pointer : MonoBehaviour
     {
         PlayerEvents.OnControllerSource += UpdateOrigin;
         PlayerEvents.onTriggerDown += ProcessTriggerDown;
-        PlayerEvents.onTouchpadDown += ProcessTouchpadDown;
-
+        PlayerEvents.onTouchpadDown += ProcessTriggerDown;
     }
 
     void Start()
@@ -49,7 +48,29 @@ public class Pointer : MonoBehaviour
         if (lastObj != null && lastObj != currentObject)
         {
             VRObject obj = lastObj.GetComponent<VRObject>();
-            if (obj != null) obj.applyHighlight(HighlightOptions.none);
+            if (obj != null)
+            {
+                if (obj is VRDraggableObject)
+                {
+                    VRDraggableObject draggable = (VRDraggableObject)obj;
+                    VRDraggableObjectTarget holder = draggable.gameObject.transform.parent.gameObject.GetComponent<VRDraggableObjectTarget>();
+                    if (holder != null && holder.gameObject != draggable.defaultHolder)
+                    {
+                        if (holder.containsType(draggable.type))
+                            obj.applyHighlight(HighlightOptions.correct);
+                        else
+                            obj.applyHighlight(HighlightOptions.wrong);
+                    }
+                    else
+                    {
+                        obj.applyHighlight(HighlightOptions.none);
+                    }
+                }
+                else
+                {/* if(obj.currentHighlightOption == High)*/
+                    obj.applyHighlight(HighlightOptions.none);
+                }
+            }
         }
 
         // checking if the object which is selected by pointer is a possible target for a draggable object and if true, call the interaction for that target.
@@ -57,16 +78,16 @@ public class Pointer : MonoBehaviour
         {
             // if the pointer points on VRObject, then highlight that object
             VRObject obj = currentObject.GetComponent<VRObject>();
-            if (obj != null) obj.applyHighlight(HighlightOptions.correct);
+            if (obj != null) obj.applyHighlight(HighlightOptions.hover);
 
-            if (attachedObject != null)
-            {
-                VRDraggableObjectTarget target = currentObject.GetComponent<VRDraggableObjectTarget>();
-                if (target != null)
-                {
-                    target.react(this);
-                }
-            }
+            //if (attachedObject != null)
+            //{
+            //    VRDraggableObjectTarget target = currentObject.GetComponent<VRDraggableObjectTarget>();
+            //    if (target != null)
+            //    {
+            //        target.react(this);
+            //    }
+            //}
         }
 
         if (OnPointerUpdate != null)
@@ -88,8 +109,11 @@ public class Pointer : MonoBehaviour
             else
             {
                 VRObject obj = currentObject.GetComponent<VRObject>();
-                obj.interact();
-                obj.interact(this);
+                if (obj != null)
+                {
+                    obj.interact();
+                    obj.interact(this);
+                }
             }
         }
     }
@@ -136,7 +160,7 @@ public class Pointer : MonoBehaviour
     {
         PlayerEvents.OnControllerSource -= UpdateOrigin;
         PlayerEvents.onTriggerDown -= ProcessTriggerDown;
-        PlayerEvents.onTouchpadDown -= ProcessTouchpadDown;
+        PlayerEvents.onTouchpadDown -= ProcessTriggerDown;
     }
 
 
@@ -162,21 +186,29 @@ public class Pointer : MonoBehaviour
         return null;
     }
 
+    float lastInteracitonTime = 0f;
+
     private void ProcessTriggerDown()
     {
-        if (!currentObject) return;
+        if (!currentObject || Time.time < lastInteracitonTime + 0.5f) return;
+        //Interactible interactible = currentObject.GetComponent<Interactible>();
+        //interactible.Pressed();
+        lastInteracitonTime = Time.time;
         Interactible interactible = currentObject.GetComponent<Interactible>();
-        interactible.Pressed();
-
-    }
-
-
-    private void ProcessTouchpadDown()
-    {
-        if (!currentObject)
-            return;
-        Interactible interactible = currentObject.GetComponent<Interactible>();
-        interactible.Pressed();
+        if (interactible)
+        {
+            interactible.Pressed();
+            print("interactible pressed");
+        }
+        else
+        {
+            VRObject obj = currentObject.GetComponent<VRObject>();
+            if (obj != null)
+            {
+                obj.interact();
+                obj.interact(this);
+            }
+        }
     }
 
     public void Drag(GameObject obj)
@@ -186,6 +218,9 @@ public class Pointer : MonoBehaviour
             attachedObject = obj;
             attachedObject.transform.parent = handAnchor.transform;
             attachedObject.transform.localPosition = Vector3.zero;
+            attachedObject.transform.localEulerAngles = new Vector3(0, 0, 0);
+            BoxCollider box = attachedObject.GetComponent<BoxCollider>();
+            if (box != null) box.enabled = false;
         }
         else
         {
@@ -200,24 +235,33 @@ public class Pointer : MonoBehaviour
         }
     }
 
-    public void Drop()
+    public void Drop(GameObject holder)
     {
-
+        attachedObject.transform.parent = holder.transform;
+        attachedObject.transform.localPosition = Vector3.zero;
+        attachedObject.transform.localEulerAngles = new Vector3(0, 0, 0);
+        BoxCollider box = attachedObject.GetComponent<BoxCollider>();
+        if (box != null) box.enabled = true;
+        attachedObject = null;
     }
 
     private IEnumerator HideMessageAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (WhenWasMessageCanvasLatelyActivated + 2.8f > Time.time)
-            StartCoroutine(HideMessageAfterDelay(WhenWasMessageCanvasLatelyActivated + 3 - Time.time));
-        MessageCanvas.SetActive(false);
+        if (WhenWasMessageCanvasLatelyActivated + delay > Time.time)
+            StartCoroutine(HideMessageAfterDelay(WhenWasMessageCanvasLatelyActivated + delay - Time.time));
+        else if (MessageCanvas != null)
+            MessageCanvas.SetActive(false);
     }
 
     public void DisplayMessage(string msg, float delay)
     {
-        MessageContent.text = msg;
-        MessageCanvas.SetActive(true);
-        StartCoroutine(HideMessageAfterDelay(delay));
+        if (MessageCanvas != null)
+        {
+            MessageContent.text = msg;
+            MessageCanvas.SetActive(true);
+        }
         WhenWasMessageCanvasLatelyActivated = Time.time;
+        StartCoroutine(HideMessageAfterDelay(delay));
     }
 }
