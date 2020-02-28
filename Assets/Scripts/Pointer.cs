@@ -32,7 +32,7 @@ public class Pointer : MonoBehaviour
     {
         PlayerEvents.OnControllerSource += UpdateOrigin;
         PlayerEvents.onTriggerDown += ProcessTriggerDown;
-        PlayerEvents.onTouchpadDown += ProcessTouchpadDown;
+        PlayerEvents.onTouchpadDown += ProcessTriggerDown;
     }
 
     void Start()
@@ -160,7 +160,7 @@ public class Pointer : MonoBehaviour
     {
         PlayerEvents.OnControllerSource -= UpdateOrigin;
         PlayerEvents.onTriggerDown -= ProcessTriggerDown;
-        PlayerEvents.onTouchpadDown -= ProcessTouchpadDown;
+        PlayerEvents.onTouchpadDown -= ProcessTriggerDown;
     }
 
 
@@ -186,12 +186,14 @@ public class Pointer : MonoBehaviour
         return null;
     }
 
+    float lastInteracitonTime = 0f;
+
     private void ProcessTriggerDown()
     {
-        if (!currentObject) return;
+        if (!currentObject || Time.time < lastInteracitonTime + 0.5f) return;
         //Interactible interactible = currentObject.GetComponent<Interactible>();
         //interactible.Pressed();
-
+        lastInteracitonTime = Time.time;
         Interactible interactible = currentObject.GetComponent<Interactible>();
         if (interactible)
         {
@@ -207,14 +209,6 @@ public class Pointer : MonoBehaviour
                 obj.interact(this);
             }
         }
-    }
-
-    private void ProcessTouchpadDown()
-    {
-        if (!currentObject)
-            return;
-        Interactible interactible = currentObject.GetComponent<Interactible>();
-        interactible.Pressed();
     }
 
     public void Drag(GameObject obj)
