@@ -1,8 +1,8 @@
 # LeVRnAlgebra
-leVRn is an open source VR solution aimed at transforming education in Nigeria.
+leVRn:Algebra is an open source VR solution aimed at transforming education in Nigeria.
 
 ## Short Description
-It is a compilation of VR modules tailored after different topics in the Nigerian Secondary School Curriculum. These modules are then used by various secondary schools to enhance the learning experience of their students. It is currently a member of the UNICEF Innovation Fund cohort and more details on that can be found [here](https://www.unicef.org/innovation/stories/imisi-3d-providing-locally-tailored-interactive-content-using-vr-transform-education)
+It is a VR module designed to teach different topics in the Nigerian Secondary School Curriculum. The module will be used by various secondary schools to enhance the learning experience of their students; this project is part of Imisi 3D's VR for Schools program. Imisi 3D is a current member of the UNICEF Innovation Fund cohort, more details can be found [here](https://www.unicef.org/innovation/stories/imisi-3d-providing-locally-tailored-interactive-content-using-vr-transform-education)
 
 ## Prerequisites
 - Unity 2019.1.0f2
