@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CoverageReport scope="Summary">
+  <Summary>
+    <Generatedon>4/1/2020 - 11:25:36 AM</Generatedon>
+    <Parser>MultiReportParser (30x CoberturaParser, 1x OpenCoverParser)</Parser>
+    <Assemblies>1</Assemblies>
+    <Classes>1</Classes>
+    <Files>1</Files>
+    <Coveredlines>102</Coveredlines>
+    <Uncoveredlines>0</Uncoveredlines>
+    <Coverablelines>102</Coverablelines>
+    <Totallines>352</Totallines>
+    <Linecoverage>100</Linecoverage>
+    <Coveredbranches>0</Coveredbranches>
+    <Totalbranches>0</Totalbranches>
+  </Summary>
+  <Coverage>
+    <Assembly name="Tests" classes="1" coverage="100" coveredlines="102" coverablelines="102" totallines="352" branchcoverage="" coveredbranches="0" totalbranches="0">
+      <Class name="Tests.AlgebraTests" coverage="100" coveredlines="102" coverablelines="102" totallines="352" branchcoverage="" coveredbranches="0" totalbranches="0" />
+    </Assembly>
+  </Coverage>
+</CoverageReport>
