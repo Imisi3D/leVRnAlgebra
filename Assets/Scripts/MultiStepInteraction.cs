@@ -82,7 +82,9 @@ public class MultiStepInteraction : MonoBehaviour
         // correct
         if (holder.bIsAnswerHolder && holder.containsType(obj.type))
         {
-            currentNumberOfCorrectAnswers++;
+            //currentNumberOfCorrectAnswers++;
+            new MultiStepIT().checkCurrentNumberofCorrectAnswer(currentNumberOfCorrectAnswers);
+
         }
         // wrong
         else
@@ -120,7 +122,9 @@ public class MultiStepInteraction : MonoBehaviour
         // when all answers are answered.
         if (steps[currentStepIndex].requiredAnswers == currentNumberOfCorrectAnswers)
         {
-            currentStepIndex++;
+            //currentStepIndex++;
+            new MultiStepIT().checkCurrentStepIndex(currentStepIndex);
+
             float delay = 1f;
             if (clip2Play != null) delay = clip2Play.length + 1f;
             StartCoroutine(
@@ -180,7 +184,9 @@ public class MultiStepInteraction : MonoBehaviour
                     Debug.LogError("Step " + currentStepIndex + " is lacking a text for at least an option");
                 else
                     option.gameObject.GetComponentInChildren<Text>().text = texts[i];
-                i++;
+                //i++;
+                new MultiStepIT().checkIincrement(i);
+
             }
         }
         if (pointer.attachedObject != null)
@@ -198,5 +204,31 @@ public class MultiStepInteraction : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         action();
+    }
+}
+
+public class MultiStepIT
+{
+    public int ii = 0;
+    public int currentNumber = 0;
+    public int currentStep = 0;
+    public void checkIincrement(int i)
+    {
+        i++;
+        ii = i;
+
+    }
+
+    public void checkCurrentNumberofCorrectAnswer(int currentNumberofCorrectAnswer)
+    {
+        currentNumberofCorrectAnswer++;
+        currentNumber = currentNumberofCorrectAnswer;
+    }
+
+
+    public void checkCurrentStepIndex(int currentStepIndex)
+    {
+        currentStepIndex++;
+        currentStep = currentStepIndex;
     }
 }
