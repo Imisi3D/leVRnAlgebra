@@ -18,12 +18,50 @@ public class MoveAlongPoints : CustomComponent
         gameObject.transform.position += transform.forward * speed * Time.deltaTime;
         Vector3 distance = gameObject.transform.position - targetObject.transform.position;
         float dist = distance.magnitude;
-        if (dist < 0.5)
+
+        // Emeka Added this Code
+        int destiPLen = destinationPoints.Length - 1;
+        bool enableReplace = true;
+
+
+        new MoveAlongTest().checkLogic(dist, currentDestinationIndex, destiPLen, enableReplace);
+
+
+        /*if (dist < 0.5)
         {
-            if (currentDestinationIndex < destinationPoints.Length - 1)
+            /*Formal code here
+             if(currentDestinationIndex < destinationPoints.Length - 1)#1#
+            if (currentDestinationIndex < destiPLen)
                 currentDestinationIndex++;
             else
-                enabled = false;
+                //enabled = false;
+                enableReplace = false;
+        }*/
+        // Emeka Added this code
+        enabled = enableReplace;
+    }
+}
+public class MoveAlongTest
+{
+    public int testCurrentDestIndeex = 0;
+    public bool testEnabled = true;
+    public void checkLogic(float dist, int currentDestinationIndex, int destiPLen, bool enableReplace)
+    {
+        if (dist < 0.5)
+        {
+            /*Formal code here
+             if(currentDestinationIndex < destinationPoints.Length - 1)*/
+            if (currentDestinationIndex < destiPLen)
+            {
+                currentDestinationIndex++;
+                testCurrentDestIndeex = currentDestinationIndex;
+            }
+            else
+            {
+                //enabled = false;
+                enableReplace = false;
+                testEnabled = enableReplace;
+            }
         }
     }
 }

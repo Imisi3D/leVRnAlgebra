@@ -1,0 +1,15 @@
+{
+    "name": "CancelModul",
+    "references": [
+        "GUID:f4b445c7f09f5914dbb24a3c8daecda2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

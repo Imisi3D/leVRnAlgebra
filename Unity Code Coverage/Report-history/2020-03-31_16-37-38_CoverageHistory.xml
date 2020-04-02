@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<coverage version="1.0" date="2020-03-31_16-37-38" tag="">
+  <assembly name="Tests">
+    <class name="Tests.AlgebraTests" coveredlines="102" coverablelines="102" totallines="317" coveredbranches="0" totalbranches="0" />
+  </assembly>
+</coverage>

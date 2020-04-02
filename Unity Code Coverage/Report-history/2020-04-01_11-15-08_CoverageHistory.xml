@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<coverage version="1.0" date="2020-04-01_11-15-08" tag="">
+  <assembly name="CancelModul">
+    <class name="MoveAlongPoints" coveredlines="3" coverablelines="16" totallines="67" coveredbranches="0" totalbranches="0" />
+    <class name="MoveAlongTest" coveredlines="16" coverablelines="16" totallines="67" coveredbranches="0" totalbranches="0" />
+    <class name="ProgressBar" coveredlines="0" coverablelines="17" totallines="59" coveredbranches="0" totalbranches="0" />
+    <class name="ProgressBar2" coveredlines="0" coverablelines="17" totallines="63" coveredbranches="0" totalbranches="0" />
+    <class name="ProgressTestBar" coveredlines="11" coverablelines="11" totallines="59" coveredbranches="0" totalbranches="0" />
+    <class name="ProgressTestBarTwo" coveredlines="11" coverablelines="11" totallines="63" coveredbranches="0" totalbranches="0" />
+    <class name="RigidbodyActivator" coveredlines="0" coverablelines="8" totallines="23" coveredbranches="0" totalbranches="0" />
+    <class name="Waypoint" coveredlines="0" coverablelines="3" totallines="11" coveredbranches="0" totalbranches="0" />
+  </assembly>
+  <assembly name="Tests">
+    <class name="Tests.AlgebraTests" coveredlines="102" coverablelines="102" totallines="352" coveredbranches="0" totalbranches="0" />
+  </assembly>
+</coverage>

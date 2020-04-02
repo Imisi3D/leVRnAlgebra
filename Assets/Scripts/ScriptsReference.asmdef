@@ -1,0 +1,17 @@
+{
+    "name": "ScriptsReference",
+    "references": [
+        "GUID:ffd914b5cff29014faf6de49ff2d33cd"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [
+        "PS4"
+    ],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
