@@ -1,5 +1,5 @@
 # LeVRnAlgebra
-![Test Coverage](https://github.com/Imisi3D/leVRnAlgebra/raw/master/Unity%20Code%20Coverage/Report/badge_linecoverage.png "Unity Test Coverage")
+![Test Coverage](https://github.com/Imisi3D/leVRnAlgebra/raw/master/leVRnAlgebra/Unity%20Code%20Coverage/Report/badge_linecoverage.png "Unity Test Coverage")
 
 
 leVRn:Algebra is an open source VR solution aimed at transforming education in Nigeria.
