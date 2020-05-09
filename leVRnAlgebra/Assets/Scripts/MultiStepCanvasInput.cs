@@ -139,17 +139,9 @@ public class MultiStepCanvasInput : MonoBehaviour
         if (clickedButtonText.text.Equals(awaitedAnswer) || (awaitedAnswer.Contains(";" + clickedButtonText.text + ";") && !answeredOptions.Contains(";" + clickedButtonText.text + ";")))
         {
             // if a correct button is clicked
-
-            //isCorrect = true;
-            new MultiCanvas().checkIsCorrent(isCorrect);
-
-
+            isCorrect = true;
             obj.GetComponent<Image>().color = color_Correct;
-
-            //correctAnswersCount++;
-            new MultiCanvas().checkcorrentAnswersCount(correctAnswersCount);
-
-
+            correctAnswersCount++;
             answeredOptions = answeredOptions.Insert(answeredOptions.Length - 1, ";" + clickedButtonText.text);
             // referencing played clip for later
             if (clip != null)
@@ -170,11 +162,7 @@ public class MultiStepCanvasInput : MonoBehaviour
         }
         else if (!awaitedAnswer.Contains(";" + clickedButtonText.text + ";")) // if a wrong button was clicked
         {
-            //possibleTries--;
-            new MultiCanvas().checkpossibleTries(possibleTries);
-
-
-
+            possibleTries--;
             obj.GetComponent<Image>().color = color_Wrong;
             // referencing played clip for later
             if (possibleTries > 0 || steps[currentIndex].toPlayAfterAttemptsDone == null)
@@ -229,10 +217,7 @@ public class MultiStepCanvasInput : MonoBehaviour
                 MultiStepCanvasInput comp = toActivate.GetComponent<MultiStepCanvasInput>();
                 if (comp != null) comp.enabled = true;
 
-                //ControllerSelection.OVRRaycaster raycaster = toActivate.GetComponent<ControllerSelection.OVRRaycaster>();
-
-                OVRRaycaster raycaster = toActivate.GetComponent<OVRRaycaster>();
-
+                ControllerSelection.OVRRaycaster raycaster = toActivate.GetComponent<ControllerSelection.OVRRaycaster>();
                 if (raycaster != null) raycaster.enabled = true;
 
                 if (steps[currentIndex].ImageOnActivation != null)
@@ -240,11 +225,7 @@ public class MultiStepCanvasInput : MonoBehaviour
             }
 
             // increment current index
-            //currentIndex++;
-            new MultiCanvas().checkCurrentIndex(currentIndex);
-
-
-
+            currentIndex++;
             // if no other data exists to update, disable canvas, disable OVRRaycaster and reset buttons' colors
             print(gameObject.name + ":current index: " + currentIndex);
             if (currentIndex >= steps.Length || steps[currentIndex - 1].ShouldStopAtThis)
@@ -267,13 +248,8 @@ public class MultiStepCanvasInput : MonoBehaviour
                     for (int i = 0; i < buttons.Length; i++)
                         buttons[i].gameObject.GetComponent<Image>().color = color_Default;
                 }
-                //shouldDisableComp = true;
-                new MultiCanvas().checkShouldDiables(shouldDisableComp);
-
-
-                //obj.transform.parent.gameObject.GetComponent<ControllerSelection.OVRRaycaster>().enabled = false;
-
-                obj.transform.parent.gameObject.GetComponent<OVRRaycaster>().enabled = false;
+                shouldDisableComp = true;
+                obj.transform.parent.gameObject.GetComponent<ControllerSelection.OVRRaycaster>().enabled = false;
 
                 print(gameObject.name + ":trying to resume for index " + (currentIndex - 1) + "(" + steps[currentIndex - 1].shouldResumeVoice + ")");
                 if (steps[currentIndex - 1].shouldResumeVoice)
@@ -394,59 +370,6 @@ public class MultiStepCanvasInput : MonoBehaviour
     {
         UpdateCanvasContent();
         print("multiStepCanvas::OnEnable");
-
-    }
-}
-
-
-public class MultiCanvas
-{
-
-    // index of current step
-    public int currentIndex = 0;
-    // The correct answer awaited by this component, this will be compared to the child text component of the clicked button
-    public string awaitedAnswer;
-    // How many trials are remaining (no modification in the component will affect the logic, it is set from code and exposed as DEBUG).
-    public int possibleTries = 1;
-    // How many answers were answered correctly.
-    public int correctAnswersCount = 0;
-    // What was answered (no modification in the component will affect the logic, it is set from code and exposed as DEBUG).
-    public string answeredOptions = ";;";
-    public bool shouldDisable;
-    public bool corrent;
-
-
-    public void checkcorrentAnswersCount(int correctAnswers)
-    {
-        correctAnswers++;
-        correctAnswersCount = correctAnswers;
-    }
-
-    public void checkpossibleTries(int checkpossible)
-    {
-        checkpossible--;
-        possibleTries = checkpossible;
-    }
-
-
-    public void checkShouldDiables(bool shouldDisableComp)
-    {
-        shouldDisableComp = true;
-        shouldDisable = shouldDisableComp;
-    }
-
-    public void checkCurrentIndex(int i)
-    {
-        i++;
-        currentIndex = i;
-    }
-
-    public void checkIsCorrent(bool isCorrect)
-    {
-        isCorrect = true;
-
-        corrent = isCorrect;
-
 
     }
 }

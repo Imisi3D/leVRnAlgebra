@@ -56,17 +56,23 @@ public class SimulationRoomScriptController : MonoBehaviour
         if (name.Equals("class1"))
         {
             VoiceImageCanvasSync.SceneTransitionParam = "class1";
-            SceneManager.LoadScene("Market");
+            TransitionManager.pendingLoadingSceneName = "Market";
+            //SceneManager.LoadScene("Market");
+            SceneManager.LoadScene("LoadingScene");
         }
         else if (name.Equals("class1Part2"))
         {
-            SceneManager.LoadScene("Market");
+            //SceneManager.LoadScene("Market");
+            TransitionManager.pendingLoadingSceneName = "Market";
+            SceneManager.LoadScene("LoadingScene");
             VoiceImageCanvasSync.SceneTransitionParam = "class1Part2";
         }
         else if (name.Equals("class2"))
         {
             VoiceImageCanvasSync.SceneTransitionParam = "class2";
-            SceneManager.LoadScene("Street");
+            //SceneManager.LoadScene("Street");
+            SceneManager.LoadScene("LoadingScene");
+            TransitionManager.pendingLoadingSceneName = "Street";
         }
         else if (name.Equals("class3"))
         {
@@ -76,7 +82,9 @@ public class SimulationRoomScriptController : MonoBehaviour
         else if (name.Equals("class4"))
         {
             VoiceImageCanvasSync.SceneTransitionParam = "class4";
-            SceneManager.LoadScene("Market");
+            //SceneManager.LoadScene("Market");
+            TransitionManager.pendingLoadingSceneName = "Market";
+            SceneManager.LoadScene("LoadingScene");
         }
     }
 
